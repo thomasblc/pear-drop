@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pear Drop</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<link rel="stylesheet" href="pear-tokens.css">
+<style>
+[hidden]{display:none !important}
+*{box-sizing:border-box}
+body{margin:0}
+button{color:inherit;font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1280px;width:100%;margin:0 auto;padding:24px;display:grid;grid-template-columns:minmax(360px,440px) minmax(0,1fr);gap:24px;align-items:start}
+.col{display:flex;flex-direction:column;gap:24px;min-width:0;min-height:0}
+#items{min-height:0}
+.p-header .in{max-width:1280px;margin:0 auto;padding:0 16px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.app{font:var(--t-title);display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:36px;height:36px;flex:none;display:block}
+.device{font:var(--t-micro);text-transform:uppercase;color:var(--text-2);padding:4px 8px;border:1px solid var(--border);border-radius:var(--r-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.status{display:flex;align-items:center;gap:8px;font:var(--t-micro);text-transform:uppercase;color:var(--text-2);white-space:nowrap}
+
+.hero{display:block;padding:32px;transition:box-shadow var(--dur-hover) var(--ease-std)}
+.hero.drag{box-shadow:var(--glow-lime)}
+.hero h1{font:var(--t-h);letter-spacing:var(--t-h-ls);margin:8px 0 24px}
+.hero h1 .lime{color:var(--accent)}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.cost{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.chip{font:var(--t-micro);text-transform:uppercase;color:var(--text-2);padding:4px 8px;border:1px solid var(--border);border-radius:var(--r-sm)}
+
+.panel{margin-top:24px}
+.drop{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;border:1px dashed var(--border);border-radius:var(--r-md);background:var(--recessed);transition:border-color var(--dur-hover) var(--ease-std)}
+.drop:hover,.hero.drag .drop{border-color:var(--accent)}
+.drop span{font:var(--t-sm);color:var(--text-2)}
+.drop .pick{display:flex;gap:8px}
+.field{display:flex;gap:12px;align-items:flex-end;margin-top:16px}
+.field label{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0;font:var(--t-micro);text-transform:uppercase;color:var(--text-2)}
+.field .p-input{width:100%;font:var(--t-sm);border-radius:var(--r-md)}
+.p-dot{border-radius:var(--r-pill)}
+.field .p-input::placeholder{color:var(--text-3)}
+.err{margin-top:12px;font:var(--t-sm);color:var(--danger)}
+.p-btn:disabled{opacity:.5;cursor:not-allowed}
+.p-btn--secondary:active,.copy:active{background:var(--accent-soft)}
+.p-btn--primary:active{background:var(--accent-hover)}
+
+
+.list{display:flex;flex-direction:column;min-height:0}
+.list h2{font:var(--t-title);margin:0 0 16px;display:flex;justify-content:space-between;align-items:baseline}
+.list h2 .p-eyebrow{color:var(--text-2)}
+.item{padding:16px 0;border-top:1px solid var(--border-hair)}
+.item:first-of-type{border-top:0;padding-top:0}
+.top{display:flex;align-items:center;gap:12px}
+.top .name{flex:1;min-width:0;font:var(--t-body);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .size{font:var(--t-micro);color:var(--text-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{font:var(--t-micro);text-transform:uppercase;padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--border);color:var(--text-2);white-space:nowrap}
+.tag.live{border-color:var(--border-lime-soft);color:var(--accent)}
+.tag.warn{border-color:var(--warning);color:var(--warning)}
+.tag.bad{border-color:var(--danger);color:var(--danger)}
+.bar{height:4px;border-radius:var(--r-pill);background:var(--surface);overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:0;background:var(--grad-lime-bar);transition:width .4s var(--ease-std)}
+.bar.idle i{background:var(--text-deco)}
+.meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;font:var(--t-micro);text-transform:uppercase;color:var(--text-2);font-variant-numeric:tabular-nums}
+.meta .on{color:var(--accent)}
+.keyrow{display:flex;align-items:center;gap:12px;margin-top:12px;padding:8px 8px 8px 16px;background:var(--recessed);border:1px solid var(--border-hair);border-radius:var(--r-md)}
+.keyrow .p-key{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy{height:32px;padding:0 12px;border-radius:var(--r-pill);background:transparent;border:1px solid var(--border);font:var(--t-micro);text-transform:uppercase;cursor:pointer;transition:border-color var(--dur-hover) var(--ease-std);white-space:nowrap}
+.copy:hover{border-color:var(--text)}
+.copy[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.qr{margin-top:12px;display:block;width:128px;height:128px;border-radius:var(--r-md);background:#fff}
+.tools{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.files{margin-top:12px;display:grid;gap:12px}
+.file .ft{display:flex;justify-content:space-between;gap:12px;font:var(--t-xs);color:var(--text-2)}
+.file .ft span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file .ft span:last-child{font:var(--t-micro);font-variant-numeric:tabular-nums;white-space:nowrap}
+.file .bar{margin-top:4px;height:2px}
+.empty{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px 0;color:var(--text-2);font:var(--t-sm)}
+.empty svg{width:64px;height:64px}
+
+.reqs{display:grid;gap:16px}
+.reqs:empty{display:none}
+.req{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.req .what{flex:1 1 280px;min-width:0;font:var(--t-body);display:flex;align-items:center;gap:12px}
+.req .what b{font-weight:500}
+.req .what .dim{color:var(--text-2)}
+.req .btns{display:flex;gap:8px}
+.nearby{min-height:0;overflow:auto}
+.nearby h2{font:var(--t-title);margin:0 0 16px;display:flex;justify-content:space-between;align-items:baseline}
+.nearby h2 .p-eyebrow{color:var(--text-2)}
+.dev{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--border-hair)}
+.dev:first-child{border-top:0;padding-top:0}
+.dev .dn{flex:1;min-width:0;font:var(--t-body);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dev .ds{font:var(--t-micro);text-transform:uppercase;color:var(--text-2)}
+.dev.off .dn{color:var(--text-2)}
+.nb-empty{display:flex;align-items:center;gap:12px;color:var(--text-2);font:var(--t-sm)}
+.nb-empty svg{width:32px;height:32px;flex:none}
+.target{display:flex;align-items:center;gap:12px;margin-bottom:16px;font:var(--t-sm);color:var(--text-2)}
+.target b{color:var(--text);font-weight:500}
+.copy.danger{border-color:var(--danger);color:var(--danger)}
+.copy.danger:hover{background:var(--danger);color:var(--bg)}
+.copy:disabled{opacity:.5;cursor:not-allowed}
+.confirm{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:8px 8px 8px 16px;border:1px solid var(--danger);border-radius:var(--r-md);font:var(--t-sm)}
+.confirm span{flex:1;min-width:0}
+.confirm .dim{color:var(--text-2);flex:none}
+.note{margin-top:12px;font:var(--t-sm);color:var(--accent)}
+
+footer{border-top:1px solid var(--border-hair);display:flex;justify-content:space-between;font:var(--t-micro);color:var(--text-3);text-transform:uppercase;align-items:center;gap:16px;flex-wrap:wrap;padding:4px 24px;max-width:1280px;width:100%;margin:0 auto}
+.badge{display:block;height:40px;width:auto}
+.ubar{display:block;width:160px;height:4px;border-radius:var(--r-pill);background:var(--surface);overflow:hidden}
+.ubar i{display:block;height:100%;width:0;background:var(--grad-lime-bar);transition:width .25s var(--ease-std)}
+.update{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 24px;background:var(--accent-soft);border-bottom:1px solid var(--border-lime-soft);font:var(--t-sm);color:var(--text)}
+.hero>*{min-width:0}
+/* One screen on a desktop: the page never scrolls, only the Nearby and Transfers lists do. */
+@media (min-width:900px) and (min-height:560px){html,body{height:100%}body{display:flex;flex-direction:column;overflow:hidden}.wrap{flex:1;min-height:0;align-items:stretch}.col{height:100%}.nearby{flex:1}.list{height:100%}#items{flex:1;overflow:auto;padding-right:4px}}
+@media (min-width:900px) and (max-height:760px){.hero{padding:24px}.hero h1{margin:4px 0 16px}.panel{margin-top:16px}.cost{margin-top:16px}.wrap{padding:16px 24px;gap:16px}.col{gap:16px}}
+@media (max-width:899px){.wrap{grid-template-columns:1fr;padding:16px}}
+@media (max-width:760px){.p-card--feature{padding:24px}.actions .p-btn{flex:1 1 auto}.drop{flex-direction:column;align-items:stretch;text-align:center}.drop .pick{justify-content:center}.field{flex-direction:column;align-items:stretch}}
+@media (prefers-reduced-motion: reduce){.bar i,.hero{transition:none}}
+</style>
+</head>
+<body>
+<header class="p-header">
+  <div class="in">
+    <div class="app">
+      <img class="logo" src="logo.svg" alt="" width="36" height="36">
+      <span>Pear Drop</span>
+      <span class="device" id="device" title="This device"></span>
+    </div>
+    <div class="status" role="status"><span class="p-dot" id="dot" aria-hidden="true"></span><span id="peers">0 peers</span></div>
+  </div>
+</header>
+<div class="update" id="update" role="status" hidden><span class="p-dot p-dot--online" aria-hidden="true"></span><span id="updateText">New version ready</span><span class="ubar" id="ubar" hidden><i id="ubarFill"></i></span><button class="p-btn p-btn--primary p-btn--sm" type="button" id="updateBtn">Restart</button></div>
+
+<main class="wrap">
+  <div class="col">
+  <div class="reqs" id="reqs" aria-live="polite"></div>
+  <section class="p-card--feature hero p-enter" id="hero">
+    <div>
+      <span class="p-eyebrow" id="mode">Link mode</span>
+      <h1><span class="lime">Drop files.</span> <span id="h1rest">Share a link.</span></h1>
+      <div class="actions">
+        <button class="p-btn p-btn--primary" type="button" id="sendBtn">Send files</button>
+        <button class="p-btn p-btn--secondary" type="button" id="openBtn" aria-pressed="false">Open a link</button>
+      </div>
+
+      <div class="panel" id="sendPanel">
+        <div class="target" id="target" hidden><span class="p-dot" id="targetDot" aria-hidden="true"></span><span>To <b id="targetName"></b></span><button class="copy" type="button" id="clearTarget">Clear</button></div>
+        <div class="drop" id="drop">
+          <span>Drop here</span>
+          <div class="pick">
+            <button class="p-btn p-btn--secondary p-btn--sm" type="button" id="pickFiles">Files</button>
+            <button class="p-btn p-btn--secondary p-btn--sm" type="button" id="pickFolder">Folder</button>
+          </div>
+        </div>
+        <form class="field" id="pathForm">
+          <label for="pathIn">Path<input class="p-input" id="pathIn" placeholder="~/Movies/trip" autocomplete="off" spellcheck="false"></label>
+          <button class="p-btn p-btn--secondary p-btn--sm" type="submit" id="pathBtn">Share path</button>
+        </form>
+      </div>
+
+      <form class="panel field" id="recvPanel" hidden>
+        <label for="linkIn">Link<input class="p-input" id="linkIn" placeholder="peardrop://..." autocomplete="off" spellcheck="false"></label>
+        <button class="p-btn p-btn--secondary p-btn--sm" type="submit">Receive</button>
+      </form>
+
+      <div class="err" id="err" role="alert" hidden></div>
+      <div class="note" id="note" role="status" hidden></div>
+      <div class="cost"><span class="chip">No account</span><span class="chip">No upload to a server</span></div>
+      <input type="file" id="fileIn" multiple hidden>
+      <input type="file" id="dirIn" webkitdirectory hidden>
+    </div>
+  </section>
+
+  <section class="p-card nearby p-enter" aria-labelledby="nTitle">
+    <h2 id="nTitle">Nearby <span class="p-eyebrow" id="nCount"></span></h2>
+    <div id="devices"></div>
+    <div class="nb-empty" id="nbEmpty">
+      <svg viewBox="0 0 32 32" fill="none" stroke="#B1D945" stroke-width="1.5" aria-hidden="true"><path d="M16 4 27 10v12L16 28 5 22V10z"/><path d="M5 10l11 6 11-6M16 16v12" stroke-opacity=".6"/></svg>
+      <span id="nbEmptyText">No devices nearby</span>
+    </div>
+  </section>
+  </div>
+
+  <section class="p-card list p-enter" aria-labelledby="tTitle">
+    <h2 id="tTitle">Transfers <span class="p-eyebrow" id="tCount"></span></h2>
+    <div id="items"></div>
+    <div class="empty" id="empty">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#B1D945" stroke-width="1.5" aria-hidden="true"><path d="M32 8 54 20v24L32 56 10 44V20z"/><path d="M10 20l22 12 22-12M32 32v24"/></svg>
+      <span>Nothing sent or received yet.</span>
+    </div>
+  </section>
+
+</main>
+<footer><span>Peer to peer · encrypted in transit</span><img class="badge" src="built-with-pears.svg" alt="Built with pears" width="176" height="48"></footer>
+<script src="app.js"></script>
+</body>
+</html>

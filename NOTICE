@@ -1,0 +1,15 @@
+Pear Drop
+Copyright 2026 thomasblc
+
+This project is based on hello-pear-electron by Holepunch
+(https://github.com/holepunchto/hello-pear-electron), which declares the
+Apache License 2.0 in its packaging metadata (forge.config.js, snapcraft
+license field). The Electron shell, packaging configuration, worker launcher
+(workers/main.js, from hello-pear-worker, Apache-2.0) and build assets come
+from that template and were modified for Pear Drop.
+
+Bundled fonts (pear-drop/public/fonts): Inter and Space Mono, under the SIL
+Open Font License 1.1 (license texts next to the font files).
+
+The pears logo and "Built with pears" badge belong to their owners and are
+used only to credit the platform. Colours and type follow the pears.com brand.

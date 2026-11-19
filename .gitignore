@@ -1,0 +1,6 @@
+node_modules/
+out/
+build-desktop/
+.DS_Store
+*.log
+.env*

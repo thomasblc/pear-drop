@@ -1,0 +1,129 @@
+/*
+  Pear Drop UI tokens. Colours and type follow the pears.com brand.
+  Fonts are bundled (fonts/, SIL Open Font License): Inter for UI text, Space Mono for labels and numbers.
+*/
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('fonts/inter-latin-var.woff2') format('woff2'); }
+@font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/space-mono-400-latin.woff2') format('woff2'); }
+@font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('fonts/space-mono-700-latin.woff2') format('woff2'); }
+:root {
+  /* Primitives (site, HSL triplets like the site so alpha works: hsl(var(--p-lime) / .3)) */
+  --p-black: 130 37% 3%;        /* #050A06 green-tinted near-black, page background */
+  --p-charcoal: 0 0% 13%;       /* #212121 surfaces */
+  --p-elevated: 0 0% 16%;       /* #292929 elevated card */
+  --p-ink: 0 0% 10%;            /* #1A1A1A text on lime */
+  --p-gray: 0 0% 49%;           /* #7D7D7D borders, muted text */
+  --p-white: 0 0% 100%;
+  --p-lime: 76 66% 56%;         /* #B1D945 THE accent */
+  --p-lime-hover: 77 66% 46%;   /* #97C328 */
+  --p-green: 147 50% 47%;       /* success */
+  --p-red: 0 84% 64%;           /* error */
+  --p-yellow: 43 100% 50%;      /* warning */
+
+  /* Semantic (site) */
+  --bg: hsl(var(--p-black));
+  --surface: hsl(var(--p-charcoal));
+  --surface-glass: rgba(53, 53, 53, .22);     /* feature cards on the home page */
+  --surface-elevated: hsl(var(--p-elevated));
+  --recessed: #0E0E0E;                        /* code wells, inputs (site uses rgb 14,14,14) */
+  --text: hsl(var(--p-white));
+  --text-2: rgba(255, 255, 255, .61);         /* body copy, secondary links */
+  --text-3: rgba(255, 255, 255, .55);         /* dates, captions. Site uses .37 (3.2:1, fails 4.5:1); .55 keeps the look and passes */
+  --text-deco: rgba(255, 255, 255, .37);      /* site value, decorative marks only, never text */
+  --border: hsl(var(--p-gray));               /* 1px #7D7D7D on neutral cards */
+  --border-lime: hsl(var(--p-lime));          /* 1px lime on hero feature cards */
+  --border-lime-soft: hsla(76, 66%, 56%, .31);
+  --border-hair: rgba(255, 255, 255, .10);    /* added: dividers inside app panels */
+  --accent: hsl(var(--p-lime));
+  --accent-hover: hsl(var(--p-lime-hover));
+  --accent-soft: hsla(76, 66%, 56%, .11);
+  --on-accent: hsl(var(--p-ink));
+  --success: hsl(var(--p-green));
+  --danger: hsl(var(--p-red));
+  --warning: hsl(var(--p-yellow));
+
+  /* Gradients and glow (site) */
+  --grad-lime-card: linear-gradient(209.85deg, rgba(176, 217, 68, .17) 9.56%, rgba(12, 12, 12, .17) 88.16%), linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .46) 50%, rgba(0, 0, 0, .46) 100%);
+  --grad-lime-bar: linear-gradient(90deg, #758645 0%, #B0D944 100%);
+  --grad-rule: linear-gradient(to right, transparent 0%, #7D7D7D 50%, transparent 100%);
+  --glow-lime: 0 4px 46px rgba(176, 217, 68, .45);
+  --shadow-pop: 0 30px 70px rgba(0, 0, 0, .3);
+
+  /* Type (site scale; Inter, headings weight 400 with negative tracking) */
+  --font: Inter, system-ui, sans-serif;
+  --mono: "Space Mono", ui-monospace, monospace;
+  --code: ui-monospace, SFMono-Regular, Menlo, monospace;   /* docs.pears.com code */
+  --h1: 400 78px/93px var(--font);   --h1-ls: -2.4px;
+  --h2: 400 61px/62.4px var(--font); --h2-ls: -1.2px;
+  --h3: 400 47px/53px var(--font);   --h3-ls: -1.4px;
+  --h4: 400 36px/42px var(--font);   --h4-ls: -1.2px;
+  --h5: 600 25.5px/31.5px var(--font);
+  --h6: 600 20.25px/25.5px var(--font);
+  --card-title: 500 18px/22px var(--font);
+  --body-lg: 400 18px/26px var(--font);
+  --body: 400 15px/24px var(--font);
+  --body-sm: 400 14.25px/21.5px var(--font);
+  --body-xs: 400 13px/20px var(--font);
+  --micro: 400 11px/16px var(--mono);          /* uppercase eyebrows, dates */
+  --btn-font: 500 15px/18px var(--font);
+  /* In-app type scale (11 12 13 14 16 20 24 30 36). The larger scale above is for headings. */
+  --t-micro: 400 11px/16px var(--mono);
+  --t-xs: 400 13px/20px var(--font);
+  --t-sm: 400 14px/20px var(--font);
+  --t-body: 400 16px/24px var(--font);
+  --t-title: 500 20px/24px var(--font);
+  --t-h: 400 30px/36px var(--font); --t-h-ls: -0.8px;
+  --t-hero: 400 36px/42px var(--font); --t-hero-ls: -1.2px;
+
+  /* Shape and size (site) */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 20px; --r-2xl: 32px; --r-pill: 9999px;
+  --control-radius: 6px;
+  --btn-h: 52px; --btn-px: 32px; --btn-sm-h: 40px; --btn-sm-px: 24px;
+  --header-h: 64px;      /* 84px on desktop marketing pages */
+  --container: 1200px;
+  --card-pad: 24px;      /* site uses 28px (off the 4/8 scale); 48 to 56px on large feature cards */
+
+  /* Motion (site) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* entrances: 550ms, translateY + opacity, staggered */
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);    /* hovers: 150 to 200ms */
+  --dur-enter: 550ms; --dur-hover: 200ms;
+}
+
+/* Base */
+html, body { background: var(--bg); color: var(--text); font: var(--t-body); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: var(--on-accent); }
+
+/* Components (patterns seen on pears.com) */
+.p-eyebrow { font: var(--micro); text-transform: uppercase; color: var(--accent); letter-spacing: .5px; }
+.p-date { font: var(--micro); text-transform: uppercase; color: var(--text-3); }
+.p-h-split .lime { color: var(--accent); }   /* hero: first line lime, rest white */
+
+.p-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--btn-h); padding: 0 var(--btn-px); border-radius: var(--r-pill); font: 500 16px/20px var(--font); border: 0; cursor: pointer; transition: background var(--dur-hover) var(--ease-std), color var(--dur-hover) var(--ease-std); text-decoration: none; }
+.p-btn--primary { background: var(--accent); color: var(--on-accent); }
+.p-btn--primary:hover { background: var(--accent-hover); }
+.p-btn--secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.p-btn--secondary:hover { border-color: var(--text); }
+.p-btn--ghost { background: transparent; color: var(--text-2); padding: 0; }
+.p-btn--ghost:hover { color: var(--text); }
+.p-btn--sm { height: var(--btn-sm-h); padding: 0 var(--btn-sm-px); }
+
+.p-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--card-pad); }
+.p-card--feature { background: var(--surface-glass); border: 1px solid var(--border-lime); border-radius: var(--r-lg); padding: 48px; }
+.p-card--lime { background: var(--grad-lime-card); border: 1px solid var(--border-lime-soft); border-radius: var(--r-lg); padding: 32px; }
+.p-card h3 { font: var(--t-title); margin: 0 0 8px; }
+.p-card p { color: var(--text-2); margin: 0; }
+
+.p-header { position: sticky; top: 0; z-index: 40; height: var(--header-h); display: flex; align-items: center; border-bottom: 1px solid var(--border-hair); background: hsl(var(--p-black) / .9); backdrop-filter: blur(16px); }
+.p-rule { height: 1px; border: 0; background: var(--grad-rule); }
+
+.p-input { height: 44px; padding: 0 14px; background: var(--recessed); color: var(--text); border: 1px solid var(--border); border-radius: var(--control-radius); font: var(--t-body); }
+.p-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+
+.p-code { font: 400 13px/22px var(--code); background: var(--surface); border: 1px solid rgba(102, 102, 102, .2); border-radius: 5px; padding: 14px 16px; color: #BBDE5C; }
+.p-key { font: 400 12px/18px var(--mono); color: var(--accent); word-break: break-all; }   /* public keys, topics, pear:// links */
+
+.p-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-3); }
+.p-dot--online { background: var(--accent); box-shadow: 0 0 10px hsla(76, 66%, 56%, .6); }
+
+.p-enter { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-enter) var(--ease-out), transform var(--dur-enter) var(--ease-out); }
+.p-enter.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .p-enter { transition: none; opacity: 1; transform: none; } }
