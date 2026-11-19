@@ -29,6 +29,9 @@ and it updates itself over the same peer-to-peer network, with no app store and 
 | Transfer | Blocks stream over an end-to-end encrypted connection (Noise) and are checked against a Merkle tree, so nothing can be swapped in transit. | [Hypercore](https://github.com/holepunchto/hypercore) |
 | Update | The app itself is staged to a `pear://` link. Each copy watches that link and pulls the new version peer to peer. | [Pear](https://docs.pears.com), [pear-runtime](https://github.com/holepunchto/pear-runtime) |
 
+Pear is the last row only: it distributes and updates the app. The first three rows are Holepunch's peer-to-peer
+building blocks, which Pear itself also uses.
+
 The Electron window is only the interface. The peer-to-peer engine runs in a [Bare](https://github.com/holepunchto/bare)
 worker (`workers/pear-drop.mjs`) that serves the UI on `127.0.0.1`, and the Pear updater runs in a second worker
 (`workers/main.js`).
@@ -90,7 +93,9 @@ forge.config.js  Electron Forge packaging (macOS, Windows, Linux makers)
 ## Credits
 
 Pear Drop started from [hello-pear-electron](https://github.com/holepunchto/hello-pear-electron) by Holepunch
-(see [NOTICE](NOTICE)) and runs on the [Pear](https://pears.com) stack.
+(see [NOTICE](NOTICE)). It is distributed and updated with [Pear](https://pears.com). Sharing, discovery and
+transfer use the [Holepunch](https://github.com/holepunchto) peer-to-peer building blocks (Hyperswarm, HyperDHT,
+Hypercore, Hyperdrive, Bare).
 
 ## License
 
